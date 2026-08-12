@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lily Bouquet Animation</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        #ffe6f2,
+        #fff8fc,
+        #e8f7ff
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: Arial, sans-serif;
+}
+
+/* Main scene */
+.scene {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Soft glowing background */
+.glow {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+
+    background: radial-gradient(
+        circle,
+        rgba(255, 190, 220, 0.35),
+        transparent 70%
+    );
+
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+}
+
+/* Bouquet container */
+.bouquet {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+
+    width: 420px;
+    height: 500px;
+
+    transform: translate(-50%, -50%);
+}
+
+/* =========================
+   FLOWER
+========================= */
+
+.flower {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+
+    transform-origin: bottom center;
+
+    animation: flowerSway 4s ease-in-out infinite;
+}
+
+/* Flower positions */
+.flower1 {
+    left: 40px;
+    top: 70px;
+    transform: rotate(-25deg);
+    animation-delay: -1s;
+}
+
+.flower2 {
+    left: 135px;
+    top: 20px;
+    transform: rotate(-5deg);
+}
+
+.flower3 {
+    left: 230px;
+    top: 65px;
+    transform: rotate(25deg);
+    animation-delay: -2s;
+}
+
+.flower4 {
+    left: 105px;
+    top: 100px;
+    transform: scale(0.9);
+    animation-delay: -1.5s;
+}
+
+/* Lily center */
+.center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    width: 25px;
+    height: 25px;
+
+    background: #f5b400;
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 10;
+
+    box-shadow:
+        0 0 8px #ffca28;
+}
+
+/* Petals */
+.petal {
+    position: absolute;
+
+    width: 62px;
+    height: 100px;
+
+    background: linear-gradient(
+        145deg,
+        #ffffff,
+        #ffd6e8 70%,
+        #ffb4d2
+    );
+
+    border-radius: 80% 20% 80% 20%;
+
+    left: 50%;
+    top: 50%;
+
+    transform-origin: bottom center;
+
+    box-shadow:
+        inset 0 0 10px rgba(255, 255, 255, 0.8),
+        0 5px 12px rgba(220, 80, 140, 0.15);
+}
+
+/* Five petals */
+.petal:nth-child(1) {
+    transform: translate(-50%, -100%) rotate(0deg);
+}
+
+.petal:nth-child(2) {
+    transform: translate(-50%, -100%) rotate(72deg);
+}
+
+.petal:nth-child(3) {
+    transform: translate(-50%, -100%) rotate(144deg);
+}
+
+.petal:nth-child(4) {
+    transform: translate(-50%, -100%) rotate(216deg);
+}
+
+.petal:nth-child(5) {
+    transform: translate(-50%, -100%) rotate(288deg);
+}
+
+/* Petal veins */
+.petal::after {
+    content: "";
+
+    position: absolute;
+
+    width: 2px;
+    height: 70px;
+
+    background: rgba(220, 80, 130, 0.25);
+
+    left: 50%;
+    top: 15px;
+
+    transform: translateX(-50%);
+
+    border-radius: 50%;
+}
+
+/* =========================
+   STEMS
+========================= */
+
+.stem {
+    position: absolute;
+
+    width: 10px;
+    height: 300px;
+
+    background: linear-gradient(
+        90deg,
+        #397d42,
+        #69a95d,
+        #2f7138
+    );
+
+    border-radius: 10px;
+
+    left: 50%;
+    top: 120px;
+
+    transform-origin: top center;
+}
+
+/* Different stem angles */
+.stem1 {
+    transform: rotate(-25deg);
+}
+
+.stem2 {
+    transform: rotate(-8deg);
+}
+
+.stem3 {
+    transform: rotate(25deg);
+}
+
+.stem4 {
+    transform: rotate(5deg);
+}
+
+/* =========================
+   LEAVES
+========================= */
+
+.leaf {
+    position: absolute;
+
+    width: 95px;
+    height: 35px;
+
+    background: linear-gradient(
+        135deg,
+        #65a958,
+        #2d7438
+    );
+
+    border-radius: 100% 0 100% 0;
+
+    transform-origin: left center;
+
+    z-index: 5;
+}
+
+.leaf1 {
+    left: 90px;
+    top: 290px;
+    transform: rotate(-25deg);
+}
+
+.leaf2 {
+    left: 250px;
+    top: 310px;
+    transform: rotate(205deg);
+}
+
+.leaf3 {
+    left: 140px;
+    top: 350px;
+    transform: rotate(-15deg);
+}
+
+.leaf4 {
+    left: 225px;
+    top: 375px;
+    transform: rotate(195deg);
+}
+
+/* Leaf center line */
+.leaf::after {
+    content: "";
+
+    position: absolute;
+
+    width: 70px;
+    height: 2px;
+
+    background: rgba(255,255,255,0.25);
+
+    top: 50%;
+    left: 10px;
+
+    transform: rotate(-5deg);
+}
+
+/* =========================
+   WRAPPING PAPER
+========================= */
+
+.wrapper {
+    position: absolute;
+
+    left: 50%;
+    bottom: 20px;
+
+    width: 270px;
+    height: 170px;
+
+    transform: translateX(-50%);
+
+    background: linear-gradient(
+        135deg,
+        #fffafc,
+        #f5d8e6
+    );
+
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        82% 100%,
+        18% 100%
+    );
+
+    z-index: 20;
+
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Ribbon */
+.ribbon {
+    position: absolute;
+
+    left: 50%;
+    bottom: 105px;
+
+    width: 115px;
+    height: 22px;
+
+    background: #d94b83;
+
+    transform: translateX(-50%);
+
+    z-index: 30;
+
+    border-radius: 5px;
+}
+
+.ribbon::before,
+.ribbon::after {
+    content: "";
+
+    position: absolute;
+
+    width: 65px;
+    height: 45px;
+
+    background: #d94b83;
+
+    top: -12px;
+}
+
+.ribbon::before {
+    right: 90px;
+
+    clip-path: polygon(
+        100% 0,
+        0 30%,
+        50% 100%
+    );
+}
+
+.ribbon::after {
+    left: 90px;
+
+    clip-path: polygon(
+        0 0,
+        100% 30%,
+        50% 100%
+    );
+}
+
+/* =========================
+   FLOATING PETALS
+========================= */
+
+.floating-petal {
+    position: absolute;
+
+    width: 18px;
+    height: 30px;
+
+    background: #ffc4dc;
+
+    border-radius: 100% 0 100% 0;
+
+    opacity: 0;
+
+    animation: fall 7s linear infinite;
+}
+
+.floating-petal:nth-child(1) {
+    left: 20%;
+    animation-delay: 1s;
+}
+
+.floating-petal:nth-child(2) {
+    left: 40%;
+    animation-delay: 3s;
+}
+
+.floating-petal:nth-child(3) {
+    left: 65%;
+    animation-delay: 5s;
+}
+
+.floating-petal:nth-child(4) {
+    left: 80%;
+    animation-delay: 2s;
+}
+
+/* =========================
+   TEXT
+========================= */
+
+.message {
+    position: absolute;
+
+    bottom: 25px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: #b83d6c;
+
+    font-size: 24px;
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    opacity: 0;
+
+    animation: showText 2s ease forwards;
+    animation-delay: 3s;
+
+    z-index: 50;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes flowerSway {
+    0%, 100% {
+        margin-left: 0;
+    }
+
+    50% {
+        margin-left: 8px;
+    }
+}
+
+@keyframes fall {
+
+    0% {
+        top: -50px;
+        opacity: 0;
+        transform: rotate(0deg);
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 110vh;
+        opacity: 0;
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes showText {
+
+    from {
+        opacity: 0;
+        transform:
+            translateX(-50%)
+            translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            translateX(-50%)
+            translateY(0);
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+
+    .bouquet {
+        transform:
+            translate(-50%, -50%)
+            scale(0.75);
+    }
+
+    .message {
+        font-size: 17px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="scene">
+
+    <div class="glow"></div>
+
+    <!-- Falling petals -->
+    <div class="floating-petal"></div>
+    <div class="floating-petal"></div>
+    <div class="floating-petal"></div>
+    <div class="floating-petal"></div>
+
+    <div class="bouquet">
+
+        <!-- Stems -->
+        <div class="stem stem1"></div>
+        <div class="stem stem2"></div>
+        <div class="stem stem3"></div>
+        <div class="stem stem4"></div>
+
+        <!-- Leaves -->
+        <div class="leaf leaf1"></div>
+        <div class="leaf leaf2"></div>
+        <div class="leaf leaf3"></div>
+        <div class="leaf leaf4"></div>
+
+        <!-- Lily 1 -->
+        <div class="flower flower1">
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="center"></div>
+        </div>
+
+        <!-- Lily 2 -->
+        <div class="flower flower2">
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="center"></div>
+        </div>
+
+        <!-- Lily 3 -->
+        <div class="flower flower3">
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="center"></div>
+        </div>
+
+        <!-- Lily 4 -->
+        <div class="flower flower4">
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="petal"></div>
+            <div class="center"></div>
+        </div>
+
+        <!-- Wrapping -->
+        <div class="wrapper"></div>
+
+        <!-- Ribbon -->
+        <div class="ribbon"></div>
+
+    </div>
+
+    <div class="message">
+        🌸 With Love 🌸
+    </div>
+
+</div>
+
+</body>
+</html>
